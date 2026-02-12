@@ -1,0 +1,19 @@
+@import "tailwindcss";/* Add this to index.css */
+@layer components {
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .product-image-container {
+    height: 12rem;
+    flex-shrink: 0;
+  }
+  
+  .product-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+}
