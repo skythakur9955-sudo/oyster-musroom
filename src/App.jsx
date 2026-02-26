@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import Navbar from './components/Navbar';
-import Hero from './Components/Hero';
-import ProductShowcase from './Components/ProductShowcase';
-import ProductGrid from './Components/ProductGrid';
-import Features from './components/Features';
-
-import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import CartSidebar from './components/CartSidebar';
+
+// Pages Import
+import Home from './pages/Home';
+import About from './pages/About';
+import Recipes from './pages/Recipes';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Contact from './pages/Contact';
+
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Profile from './pages/Profile'
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -47,15 +55,37 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
-      <Navbar cartItems={cartItems} onCartClick={() => setIsCartOpen(true)} />
-      <Hero />
-      <ProductShowcase />
-      <ProductGrid addToCart={addToCart} />
-      <Features />
       
-      <Newsletter />
-      <Footer />
+      <Navbar cartItems={cartItems} onCartClick={() => setIsCartOpen(true)} />
+      
+      <Routes>
+        <Route path="/" element={<Home addToCart={addToCart} />} />
+        <Route path="/shop" element={<Shop addToCart={addToCart} />} />
+        <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/recipes" element={<Recipes />} />
+        <Route path="/contact" element={<Contact />} />
 
+        <Route path='/login' element = {<Login />} />
+        <Route path='/register' element = {<Register />} />
+        <Route 
+        path='/profile' 
+        element = {
+          <ProtectedRoute >
+            <Profile />
+          </ProtectedRoute>
+        } />
+        <Route 
+        path='/profile/:tab'
+        element ={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+      </Routes>
+
+      <Footer />
+      
       <CartSidebar
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -63,6 +93,7 @@ function App() {
         updateQuantity={updateQuantity}
         removeFromCart={removeFromCart}
       />
+     
     </div>
   );
 }

@@ -1,4 +1,45 @@
-@import "tailwindcss";/* Add this to index.css */
+/* Tailwind CSS v4 import - ये सबसे ऊपर होना चाहिए */
+@import "tailwindcss";
+
+/* Custom theme variables - @theme का सही उपयोग */
+@theme {
+  --animate-gradient-x: gradient-x 3s ease infinite;
+  --animate-gradient-xy: gradient-xy 15s ease infinite;
+}
+
+/* Keyframes animation */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient-xy {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Custom utility class for gradient animation */
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 3s ease infinite;
+
+}
+.animate-gradient-xy {
+  background-size: 400% 400%;
+  animation: gradient-xy 15s ease infinite;
+}
+
+
+
+/* Component styles - @layer components का सही उपयोग */
 @layer components {
   .product-card {
     display: flex;
@@ -17,3 +58,55 @@
     flex-grow: 1;
   }
 }
+
+/* अगर आपको custom utilities बनानी हैं */
+@layer utilities {
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  }
+}
+
+/* Toggle Switch Styles */
+.toggle-checkbox {
+  appearance: none;
+  width: 44px;
+  height: 24px;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.toggle-checkbox:checked {
+  background-color: #16a34a;
+}
+
+.toggle-checkbox::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: all 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-checkbox:checked::before {
+  left: 22px;
+}
+
+.toggle-checkbox:focus {
+  outline: none;
+  ring: 2px solid #16a34a;
+}
+
+
+
+
