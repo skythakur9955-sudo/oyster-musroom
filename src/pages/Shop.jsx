@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Star, Filter, SlidersHorizontal, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import img2 from '../Components/images/oyster-image2.png';
+import pakriImg1 from '../Components/images/pakriImg2.jpeg'
+import pakriImg2 from '../Components/images/pakriImg3.jpeg'
+import pakriImg3 from '../Components/images/pakriImg1.jpeg'
+
 
 const allProducts = [
   {
@@ -15,7 +20,7 @@ const allProducts = [
     serves: '2-3 people',
     rating: 4.8,
     reviews: 89,
-    image: '/images/products/fresh-oyster.jpg',
+    image: img2,
     tags: ['Best Seller', 'Organic'],
     inStock: true,
     type: 'fresh'
@@ -31,7 +36,7 @@ const allProducts = [
     serves: '2 people',
     rating: 4.9,
     reviews: 45,
-    image: '/images/products/pink-oyster.jpg',
+    image: pakriImg1,
     tags: ['Exotic', 'Limited'],
     inStock: true,
     type: 'exotic'
@@ -46,7 +51,7 @@ const allProducts = [
     serves: '3-4 people',
     rating: 4.7,
     reviews: 67,
-    image: '/images/products/golden-oyster.jpg',
+    image: pakriImg2,
     tags: ['Premium', 'Bundle'],
     inStock: true,
     type: 'premium'
@@ -62,7 +67,7 @@ const allProducts = [
     serves: '2 people',
     rating: 4.9,
     reviews: 52,
-    image: '/images/products/blue-oyster.jpg',
+    image: pakriImg3,
     tags: ['Seasonal', 'Rare'],
     inStock: false,
     type: 'exotic'
@@ -77,7 +82,7 @@ const allProducts = [
     serves: '4-5 people',
     rating: 4.8,
     reviews: 94,
-    image: '/images/products/oyster-mix.jpg',
+    image: pakriImg2,
     tags: ['Assorted', 'Best Value'],
     inStock: true,
     type: 'bundle'
@@ -93,7 +98,7 @@ const allProducts = [
     serves: '8-10 meals',
     rating: 4.6,
     reviews: 78,
-    image: '/images/products/dried-oyster.jpg',
+    image: img2,
     tags: ['Dried', 'Storage'],
     inStock: true,
     type: 'dried'

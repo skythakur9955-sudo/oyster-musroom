@@ -49,10 +49,10 @@ const Login = () => {
 
     const result = await login(formData.email, formData.password);
     
-    if (result.success) {
-      navigate('/profile');
+    if (result?.success) {
+      navigate('/profile'); // या '/dashboard' जो भी आपका route हो
     } else {
-      setError(result.error);
+      setError(result?.error || 'Login failed');
     }
     
     setLoading(false);
@@ -206,7 +206,7 @@ const Login = () => {
           </div>
         </form>
 
-        {/* Demo Credentials */}
+        {/* Demo Credentials - आप चाहें तो हटा सकते हैं */}
         <div className="mt-6">
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -217,8 +217,8 @@ const Login = () => {
             </div>
           </div>
           <div className="mt-4 text-xs text-gray-500 text-center space-y-1">
-            <p>Email: demo@example.com</p>
-            <p>Password: demo123</p>
+            <p>Email: test@example.com</p>
+            <p>Password: password123</p>
           </div>
         </div>
       </motion.div>

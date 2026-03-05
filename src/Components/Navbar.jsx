@@ -105,20 +105,7 @@ const Navbar = ({ cartItems, onCartClick }) => {
 
           {/* Right Side Actions with Modern Design */}
           <div className="flex items-center space-x-3">
-            {/* Search Bar - Modern Version */}
-            <motion.div
-              animate={{ width: isSearchFocused ? 240 : 180 }}
-              className="hidden md:block relative"
-            >
-              <input
-                type="text"
-                placeholder="Search mushrooms..."
-                onFocus={() => setIsSearchFocused(true)}
-                onBlur={() => setIsSearchFocused(false)}
-                className="w-full px-4 py-2 pl-10 rounded-full bg-white/70 backdrop-blur-sm border border-green-200 focus:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-300/50 transition-all text-sm"
-              />
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-green-500" />
-            </motion.div>
+          
 
             {/* User Menu / Login Button */}
             {user ? (
@@ -261,15 +248,7 @@ const Navbar = ({ cartItems, onCartClick }) => {
                 </motion.div>
               ))}
 
-              {/* Mobile Search */}
-              <div className="relative mt-2">
-                <input
-                  type="text"
-                  placeholder="Search mushrooms..."
-                  className="w-full px-4 py-3 pl-10 rounded-xl bg-white border border-green-200 focus:border-green-400 focus:outline-none focus:ring-2 focus:ring-green-300/50"
-                />
-                <Search className="absolute left-3 top-3.5 w-4 h-4 text-green-500" />
-              </div>
+             
 
               {/* Mobile Login/Profile Link */}
               {!user && (

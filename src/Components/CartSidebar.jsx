@@ -1,212 +1,279 @@
-import React from 'react';
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import PhonePePayment from './PhonePePayment'; // नया import
 
 const CartSidebar = ({ isOpen, onClose, items, updateQuantity, removeFromCart }) => {
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = subtotal > 500 ? 0 : 50;
   const total = subtotal + shipping;
 
+  const handleProceedToPayment = () => {
+    if (subtotal >= 300) {
+      setShowPayment(true);
+    }
+  };
+
+  const handlePaymentSuccess = (paymentData) => {
+    console.log('Payment Successful:', paymentData);
+    setPaymentSuccess(true);
+    setShowPayment(false);
+    
+    // यहाँ आप अपना ऑर्डर कन्फर्मेशन लॉजिक जोड़ सकते हैं
+    setTimeout(() => {
+      // Cart clear करें
+      items.forEach(item => removeFromCart(item.id));
+      setPaymentSuccess(false);
+      onClose();
+      // यहाँ आप सक्सेस मैसेज दिखा सकते हैं
+      alert('Order placed successfully! Thank you for your purchase.');
+    }, 3000);
+  };
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Overlay */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-50"
-          />
+    <>
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+              className="fixed inset-0 bg-black/50 z-50"
+            />
 
-          {/* Sidebar */}
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 30 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl"
-          >
-            <div className="flex flex-col h-full">
-              {/* Header */}
-              <div className="p-6 border-b border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <ShoppingBag className="w-6 h-6 text-green-600" />
-                    <h2 className="text-xl font-bold text-gray-900">Your Cart</h2>
-                    <span className="bg-green-100 text-green-800 text-sm font-semibold px-2 py-1 rounded-full">
-                      {items.length} items
-                    </span>
+            {/* Sidebar */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30 }}
+              className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl"
+            >
+              <div className="flex flex-col h-full">
+                {/* Header */}
+                <div className="p-6 border-b border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <ShoppingBag className="w-6 h-6 text-green-600" />
+                      <h2 className="text-xl font-bold text-gray-900">Your Cart</h2>
+                      <span className="bg-green-100 text-green-800 text-sm font-semibold px-2 py-1 rounded-full">
+                        {items.length} items
+                      </span>
+                    </div>
+                    <button
+                      onClick={onClose}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <X className="w-5 h-5 text-gray-500" />
+                    </button>
                   </div>
-                  <button
-                    onClick={onClose}
-                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <X className="w-5 h-5 text-gray-500" />
-                  </button>
                 </div>
-              </div>
 
-              {/* Empty State */}
-              {items.length === 0 ? (
-                <div className="flex-1 flex flex-col items-center justify-center p-8">
-                  <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
-                    <ShoppingBag className="w-12 h-12 text-gray-400" />
+                {/* Empty State */}
+                {items.length === 0 ? (
+                  <div className="flex-1 flex flex-col items-center justify-center p-8">
+                    <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+                      <ShoppingBag className="w-12 h-12 text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      Your cart is empty
+                    </h3>
+                    <p className="text-gray-600 text-center mb-8">
+                      Add some delicious oyster mushrooms to get started!
+                    </p>
+                    <button
+                      onClick={onClose}
+                      className="bg-gradient-to-r from-green-600 to-emerald-700 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-green-200 transition-all"
+                    >
+                      Start Shopping
+                    </button>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    Your cart is empty
-                  </h3>
-                  <p className="text-gray-600 text-center mb-8">
-                    Add some delicious oyster mushrooms to get started!
-                  </p>
-                  <button
-                    onClick={onClose}
-                    className="bg-gradient-to-r from-green-600 to-emerald-700 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-green-200 transition-all"
-                  >
-                    Start Shopping
-                  </button>
-                </div>
-              ) : (
-                <>
-                  {/* Cart Items */}
-                  <div className="flex-1 overflow-y-auto p-6">
-                    <div className="space-y-6">
-                      {items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
-                        >
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-20 h-20 rounded-lg object-cover"
-                          />
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-gray-900 mb-1">
-                              {item.name}
-                            </h3>
-                            <p className="text-sm text-gray-600 mb-2">
-                              {item.description}
-                            </p>
-                            <div className="flex items-center justify-between">
-                              <div className="text-lg font-bold text-gray-900">
-                                ₹{item.price}
-                              </div>
-                              <div className="flex items-center space-x-3">
-                                <div className="flex items-center space-x-2 bg-white rounded-lg px-3 py-1">
+                ) : (
+                  <>
+                    {/* Cart Items */}
+                    <div className="flex-1 overflow-y-auto p-6">
+                      <div className="space-y-6">
+                        {items.map((item) => (
+                          <div
+                            key={item.id}
+                            className="flex items-center space-x-4 p-4 bg-gray-50 rounded-xl"
+                          >
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-20 h-20 rounded-lg object-cover"
+                            />
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-gray-900 mb-1">
+                                {item.name}
+                              </h3>
+                              <p className="text-sm text-gray-600 mb-2">
+                                {item.description}
+                              </p>
+                              <div className="flex items-center justify-between">
+                                <div className="text-lg font-bold text-gray-900">
+                                  ₹{item.price}
+                                </div>
+                                <div className="flex items-center space-x-3">
+                                  <div className="flex items-center space-x-2 bg-white rounded-lg px-3 py-1">
+                                    <button
+                                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                      className="p-1 hover:bg-gray-100 rounded"
+                                    >
+                                      <Minus className="w-4 h-4 text-gray-600" />
+                                    </button>
+                                    <span className="font-semibold w-8 text-center">
+                                      {item.quantity}
+                                    </span>
+                                    <button
+                                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                      className="p-1 hover:bg-gray-100 rounded"
+                                    >
+                                      <Plus className="w-4 h-4 text-gray-600" />
+                                    </button>
+                                  </div>
                                   <button
-                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                    className="p-1 hover:bg-gray-100 rounded"
+                                    onClick={() => removeFromCart(item.id)}
+                                    className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
                                   >
-                                    <Minus className="w-4 h-4 text-gray-600" />
-                                  </button>
-                                  <span className="font-semibold w-8 text-center">
-                                    {item.quantity}
-                                  </span>
-                                  <button
-                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                    className="p-1 hover:bg-gray-100 rounded"
-                                  >
-                                    <Plus className="w-4 h-4 text-gray-600" />
+                                    <Trash2 className="w-4 h-4" />
                                   </button>
                                 </div>
-                                <button
-                                  onClick={() => removeFromCart(item.id)}
-                                  className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
-                                >
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Order Summary */}
-                  <div className="border-t border-gray-100 p-6">
-                    {/* Order Minimum Alert */}
-                    {subtotal < 300 && (
-                      <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                        <div className="flex items-center justify-between">
-                          <div className="text-amber-800 font-semibold">
-                            Add ₹{300 - subtotal} more for free delivery
+                    {/* Order Summary */}
+                    <div className="border-t border-gray-100 p-6">
+                      {/* Order Minimum Alert */}
+                      {subtotal < 300 && (
+                        <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                          <div className="flex items-center justify-between">
+                            <div className="text-amber-800 font-semibold">
+                              Add ₹{300 - subtotal} more for free delivery
+                            </div>
+                            <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
+                              <span className="text-amber-800 font-bold">!</span>
+                            </div>
                           </div>
-                          <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center">
-                            <span className="text-amber-800 font-bold">!</span>
+                          <div className="mt-2 h-2 bg-amber-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-amber-500 to-orange-500"
+                              style={{ width: `${(subtotal / 300) * 100}%` }}
+                            />
                           </div>
-                        </div>
-                        <div className="mt-2 h-2 bg-amber-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-amber-500 to-orange-500"
-                            style={{ width: `${(subtotal / 300) * 100}%` }}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Summary */}
-                    <div className="space-y-3 mb-6">
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Subtotal</span>
-                        <span className="font-semibold">₹{subtotal}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Shipping</span>
-                        <span className={shipping === 0 ? 'text-green-600 font-semibold' : 'font-semibold'}>
-                          {shipping === 0 ? 'FREE' : `₹${shipping}`}
-                        </span>
-                      </div>
-                      {shipping > 0 && subtotal < 500 && (
-                        <div className="text-sm text-gray-500">
-                          Free shipping on orders above ₹500
                         </div>
                       )}
-                      <div className="border-t border-gray-200 pt-3 mt-3">
-                        <div className="flex justify-between text-lg font-bold">
-                          <span>Total</span>
-                          <span>₹{total}</span>
+
+                      {/* Summary */}
+                      <div className="space-y-3 mb-6">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Subtotal</span>
+                          <span className="font-semibold">₹{subtotal}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Shipping</span>
+                          <span className={shipping === 0 ? 'text-green-600 font-semibold' : 'font-semibold'}>
+                            {shipping === 0 ? 'FREE' : `₹${shipping}`}
+                          </span>
+                        </div>
+                        {shipping > 0 && subtotal < 500 && (
+                          <div className="text-sm text-gray-500">
+                            Free shipping on orders above ₹500
+                          </div>
+                        )}
+                        <div className="border-t border-gray-200 pt-3 mt-3">
+                          <div className="flex justify-between text-lg font-bold">
+                            <span>Total</span>
+                            <span>₹{total}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="space-y-3">
+                        <button
+                          onClick={handleProceedToPayment}
+                          className={`w-full py-4 rounded-xl font-semibold text-lg transition-all flex items-center justify-center space-x-2 ${
+                            subtotal >= 300
+                              ? 'bg-gradient-to-r from-green-600 to-emerald-700 text-white hover:shadow-lg hover:shadow-green-200'
+                              : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                          }`}
+                          disabled={subtotal < 300}
+                        >
+                          <QrCode className="w-5 h-5" />
+                          <span>Proceed to Payment</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </button>
+                        
+                        <button
+                          onClick={onClose}
+                          className="w-full border-2 border-green-600 text-green-600 py-4 rounded-xl font-semibold text-lg hover:bg-green-50 transition-colors"
+                        >
+                          Continue Shopping
+                        </button>
+                      </div>
+
+                      {/* Payment Methods */}
+                      <div className="mt-6 pt-4 border-t border-gray-100">
+                        <p className="text-xs text-gray-500 text-center mb-3">
+                          We accept:
+                        </p>
+                        <div className="flex items-center justify-center space-x-4">
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/PhonePe_Logo.png/800px-PhonePe_Logo.png" 
+                               alt="PhonePe" 
+                               className="h-6 object-contain" />
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Google_Pay_Logo.svg/1280px-Google_Pay_Logo.svg.png" 
+                               alt="Google Pay" 
+                               className="h-5 object-contain" />
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/BHIM_logo.svg/1200px-BHIM_logo.svg.png" 
+                               alt="BHIM" 
+                               className="h-6 object-contain" />
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Paytm_Logo_%281%29.png/800px-Paytm_Logo_%281%29.png" 
+                               alt="Paytm" 
+                               className="h-5 object-contain" />
                         </div>
                       </div>
                     </div>
+                  </>
+                )}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
-                    {/* Action Buttons */}
-                    <div className="space-y-3">
-                      <button
-                        className={`w-full py-4 rounded-xl font-semibold text-lg transition-all ${
-                          subtotal >= 300
-                            ? 'bg-gradient-to-r from-green-600 to-emerald-700 text-white hover:shadow-lg hover:shadow-green-200'
-                            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                        }`}
-                        disabled={subtotal < 300}
-                      >
-                        {subtotal >= 300 ? (
-                          <div className="flex items-center justify-center">
-                            <span>Proceed to Checkout</span>
-                            <ArrowRight className="ml-2 w-5 h-5" />
-                          </div>
-                        ) : (
-                          `Minimum Order ₹300`
-                        )}
-                      </button>
-                      
-                      <button
-                        onClick={onClose}
-                        className="w-full border-2 border-green-600 text-green-600 py-4 rounded-xl font-semibold text-lg hover:bg-green-50 transition-colors"
-                      >
-                        Continue Shopping
-                      </button>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </motion.div>
-        </>
+      {/* Payment Modal */}
+      {showPayment && (
+        <PhonePePayment
+          amount={total}
+          onSuccess={handlePaymentSuccess}
+          onClose={() => setShowPayment(false)}
+        />
       )}
-    </AnimatePresence>
+
+      {/* Payment Success Message */}
+      {paymentSuccess && (
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 50 }}
+          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-8 py-4 rounded-xl shadow-2xl z-[200] flex items-center space-x-3"
+        >
+          <CheckCircle className="w-6 h-6" />
+          <span className="font-semibold">Payment Successful! Redirecting...</span>
+        </motion.div>
+      )}
+    </>
   );
 };
 

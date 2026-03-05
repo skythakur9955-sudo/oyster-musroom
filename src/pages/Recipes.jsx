@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, Users, ChefHat, Heart, Search, Filter, Star, BookOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
-
+import r1 from '../Components/images/img-R1.jpg';
+import r2 from '../Components/images/img-R2.jpg';
+import r3 from '../Components/images/img-R3.jpg';
+import r4 from '../Components/images/img-R4.png';
 const recipes = [
   {
     id: 1,
     title: 'Garlic Butter Oyster Mushrooms',
     description: 'Simple yet elegant stir-fried oyster mushrooms in rich garlic butter sauce.',
-    image: '/images/recipes/garlic-butter.jpg',
+    image: r1,
     prepTime: '15 mins',
     cookTime: '10 mins',
     servings: 2,
@@ -23,7 +26,7 @@ const recipes = [
     id: 2,
     title: 'Creamy Mushroom Pasta',
     description: 'Luxurious pasta with oyster mushrooms in a creamy parmesan sauce.',
-    image: '/images/recipes/mushroom-pasta.jpg',
+    image: r2,
     prepTime: '20 mins',
     cookTime: '15 mins',
     servings: 4,
@@ -38,7 +41,7 @@ const recipes = [
     id: 3,
     title: 'Oyster Mushroom Stir Fry',
     description: 'Asian-style stir fry with oyster mushrooms, bell peppers, and soy sauce.',
-    image: '/images/recipes/stir-fry.jpg',
+    image: r3,
     prepTime: '15 mins',
     cookTime: '8 mins',
     servings: 3,
@@ -53,7 +56,7 @@ const recipes = [
     id: 4,
     title: 'Mushroom Risotto',
     description: 'Creamy Italian risotto with sautéed oyster mushrooms and parmesan.',
-    image: '/images/recipes/risotto.jpg',
+    image: r4,
     prepTime: '10 mins',
     cookTime: '25 mins',
     servings: 4,

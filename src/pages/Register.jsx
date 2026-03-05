@@ -9,7 +9,7 @@ const Register = () => {
   const { register } = useAuth();
 
   const [formData, setFormData] = useState({
-    name: '',
+    name: '',           // यह backend में username के रूप में जाएगा
     email: '',
     phone: '',
     password: '',
@@ -93,12 +93,24 @@ const Register = () => {
     setLoading(true);
     setError('');
 
-    const result = await register(formData);
+    // Prepare data for backend
+    const registerData = {
+      name: formData.name,       
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      pincode: formData.pincode
+    };
+
+    const result = await register(registerData);
     
-    if (result.success) {
-      navigate('/profile');
+    if (result?.success) {
+      // Registration successful, redirect to profile
+      navigate('/profile'); 
     } else {
-      setError(result.error);
+      setError(result?.error || 'Registration failed');
     }
     
     setLoading(false);
