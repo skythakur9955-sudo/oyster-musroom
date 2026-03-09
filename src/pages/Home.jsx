@@ -1,8 +1,8 @@
 import React from 'react';
-import Hero from '../components/Hero';
+import Hero from '../Components/Hero';
 
-import ProductGrid from '../components/ProductGrid';
-import Features from '../components/Features';
+import ProductGrid from '../Components/ProductGrid';
+import Features from '../Components/Features';
 
 
 
