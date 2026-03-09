@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import CartSidebar from './components/CartSidebar';
+import Navbar from './Components/Navbar';
+import Footer from './Components/Footer';
+import CartSidebar from './Components/CartSidebar';
 
 // Pages Import
 import Home from './pages/Home';
