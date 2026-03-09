@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
+import ProtectedRoute from './Components/ProtectedRoute';
 
 import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
